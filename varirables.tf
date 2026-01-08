@@ -19,3 +19,14 @@ variable "novm" {
   type = number
   description = "this is for number of vm to be created"
 }
+# variable with map data type 
+
+variable "ec2_instances" {
+    type = map(string)
+    default = {
+      "web" = "t3.micro"
+      "db"  = "t2.small"
+    }
+  
+}
+# above each is gonna key:value pair 

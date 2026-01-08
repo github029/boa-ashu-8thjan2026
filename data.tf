@@ -13,7 +13,7 @@ resource "aws_security_group" "allow_tls" {
     Name = "ashu_allow_boa_rules" # changed here
   }
 }
-# adding egress out going connection rules for ipv4 and ipv6 
+# adding egress out going connection rules for ipv4 and ipv6 extra comment
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
   security_group_id = aws_security_group.allow_tls.id

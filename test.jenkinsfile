@@ -1,0 +1,66 @@
+pipeline {
+  agent any
+
+  options {
+    disableConcurrentBuilds()
+    timestamps()
+  }
+
+  environment {
+    TF_IN_AUTOMATION = "true"
+  }
+
+  stages {
+
+    stage('Clone Git Repository') {
+      steps {
+        git branch: 'master',
+            url: 'https://github.com/redashu/boa-ashu-8thjan2026.git'
+      }
+    }
+
+    stage('Terraform Init') {
+      steps {
+        sh '''
+          terraform init -input=false
+        '''
+      }
+    }
+
+    stage('Terraform Validate') {
+      steps {
+        sh '''
+          terraform validate
+        '''
+      }
+    }
+
+    stage('Terraform Plan') {
+      steps {
+        sh '''
+          terraform plan
+        '''
+      }
+    }
+
+    stage('Manual Approval') {
+      steps {
+        input message: 'Approve Terraform Apply on MASTER branch?'
+      }
+    }
+
+    stage('Terraform Apply') {
+      steps {
+        sh '''
+          terraform apply -auto-approve
+        '''
+      }
+    }
+  }
+
+  post {
+    always {
+      echo "Pipeline completed for master branch"
+    }
+  }
+}
